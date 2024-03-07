@@ -5,6 +5,12 @@ public class Product {
     private String name;
     private int price;
 
+    public Product() {}
+    public Product(String id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
     public static Product of(String id, String name, int price) {
         var p = new Product();
         p.id = id;
