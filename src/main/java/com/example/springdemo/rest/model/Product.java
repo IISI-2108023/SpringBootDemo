@@ -1,6 +1,13 @@
 package com.example.springdemo.rest.model;
 
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "product")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String name;
     private int price;
