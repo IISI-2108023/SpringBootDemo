@@ -1,0 +1,37 @@
+# 指定了使用的 Docker Compose 配置文件的版本。在這個特定的配置文件中，它表示使用的是 Docker Compose 的 3.8 版本
+version: '4'
+# [podman] podman-compose -f compose.yml up -d
+# [podman] podman-compose down
+# docker compose stop or docker compose stop postgres 停止服務
+# docker compose down postgres 移除服務
+services:
+  app:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: demo-app
+    ports:
+      - 8080:8080
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - /D/postgres:/var/lib/postgresql/pgdata # [TODO] maybe create a volume
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+#    restart: always #表示無論何時容器退出（如手動停止或發生錯誤），Docker 將自動重新啟動容器。
+# https://hub.docker.com/_/postgres
+# podman run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  -p 5432:5432 -v D:\postgres:/var/lib/postgresql/pgdata -d postgres
