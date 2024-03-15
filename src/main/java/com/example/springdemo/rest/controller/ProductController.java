@@ -1,7 +1,6 @@
 package com.example.springdemo.rest.controller;
 
 import com.example.springdemo.rest.model.Product;
-import com.example.springdemo.rest.param.ProductRequestParameter;
 import com.example.springdemo.rest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
 
 @RestController// to tell spring it's a controller
@@ -80,14 +78,14 @@ public class ProductController {
         required 是否必填
         defaultValue 預設值
      */
-    @GetMapping
-    public ResponseEntity<List<Product>> getProduct(
-            // @RequestParam(value = "searchKey", required = false, defaultValue = "") String keyword,
-            // @RequestParam(value = "sortField", required = false) String sortField,
-            // @RequestParam(value = "sortDir", required = false) String sortDir
-            @ModelAttribute ProductRequestParameter parameter // 建立 param class 自動對應
-    ) {
-        List<Product> pList = productService.getProducts(parameter);
-        return ResponseEntity.ok(pList);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Product>> getProduct(
+//            // @RequestParam(value = "searchKey", required = false, defaultValue = "") String keyword,
+//            // @RequestParam(value = "sortField", required = false) String sortField,
+//            // @RequestParam(value = "sortDir", required = false) String sortDir
+//            @ModelAttribute ProductRequestParameter parameter // 建立 param class 自動對應
+//    ) {
+//        List<Product> pList = productService.getProducts(parameter);
+//        return ResponseEntity.ok(pList);
+//    }
 }
