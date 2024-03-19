@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.example.springdemo.*.dao"},// package for repository
+        basePackages = {"com.example.springdemo.app.dao"},// package for repository
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager"
 )
@@ -29,7 +29,7 @@ public class PostgresConfig {
     @Bean("postgresDataSource")
     @ConfigurationProperties("spring.datasource.demo1")// prop prefix, or prefix=""
     public DataSource postgresDataSource() {
-        return DataSourceBuilder.create().build();// [TODO] PGSimpleDataSource -> dataSource for postgres
+        return DataSourceBuilder.create().build();
     }
 
     @Primary
@@ -40,7 +40,9 @@ public class PostgresConfig {
     ) {
         return createEntityManagerFactoryBuilder(jpaProperties)
                 .dataSource(dataSource)
-                .packages("com.example.springdemo.*.model")
+                // .properties()
+                // some properties can be set here: default_schema
+                .packages("com.example.springdemo.app.model")
                 .persistenceUnit("pu-demo1")
                 .build();
     }
@@ -53,6 +55,7 @@ public class PostgresConfig {
         return new JpaTransactionManager(entityManagerFactory.getObject());
     }
 
+    // secondConfig -> Simple version of DB config without jpa properties
     // customize jpa property, or it will auto config "spring.jpa.*"
     @Bean
     @ConfigurationProperties("spring.jpa")
@@ -61,9 +64,9 @@ public class PostgresConfig {
     }
 
     private JpaVendorAdapter createJpaVendorAdaptor(JpaProperties jpaProperties) {
-        // another way to set spring.jpa.show-sql
-//        AbstractJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-//        adapter.setShowSql(jpaProperties.isShowSql());
+        // way to set properties: spring.jpa.show-sql
+        // AbstractJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        // adapter.setShowSql(jpaProperties.isShowSql());
         return new HibernateJpaVendorAdapter();
     }
 

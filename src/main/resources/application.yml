@@ -9,20 +9,18 @@ spring:
       schema: demo1
       username: postgres
       password: postgres
-
-#    demo2:
-#      url: jdbc:postgresql://localhost:5432/postgres
-#      #url: jdbc:postgresql://host.containers.internal:5432/postgres
-#      schema: demo2
-#      username: postgres
-#      password: postgres
+    demo2:
+      jdbc-url: jdbc:postgresql://localhost:5432/postgres
+      #url: jdbc:postgresql://host.containers.internal:5432/postgres
+      schema: demo2
+      username: postgres
+      password: postgres
 
   jpa:
     # spring.jpa.properties.* auto pass to entity managers
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        default_schema: demo1
         hbm2ddl:
           auto: update
         show_sql: true
