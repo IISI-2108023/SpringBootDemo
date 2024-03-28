@@ -1,11 +1,19 @@
 package com.example.springdemo.app.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "SubList")
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubList {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,61 +33,4 @@ public class SubList {
     private String status;
     @Column
     private String referenceUrl;
-
-    public String getOid() {
-        return oid;
-    }
-
-    public void setOid(String oid) {
-        this.oid = oid;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReferenceUrl() {
-        return referenceUrl;
-    }
-
-    public void setReferenceUrl(String referenceUrl) {
-        this.referenceUrl = referenceUrl;
-    }
-
 }
