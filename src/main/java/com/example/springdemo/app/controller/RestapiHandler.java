@@ -1,6 +1,6 @@
 package com.example.springdemo.app.controller;
 
-import com.example.springdemo.app.model.TodoList;
+import com.example.springdemo.persistence.model.TodoList;
 import com.example.springdemo.app.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,7 +20,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.example.springdemo.app.dao"},// package for repository
+        basePackages = {"com.example.springdemo.persistence.dao"},// package for repository
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager"
 )
@@ -42,7 +43,7 @@ public class PostgresConfig {
                 .dataSource(dataSource)
                 // .properties()
                 // some properties can be set here: default_schema
-                .packages("com.example.springdemo.app.model")
+                .packages("com.example.springdemo.persistence.model")
                 .persistenceUnit("pu-demo1")
                 .build();
     }
@@ -74,4 +75,8 @@ public class PostgresConfig {
         return new EntityManagerFactoryBuilder(createJpaVendorAdaptor(jpaProperties), jpaProperties.getProperties(), null);
     }
 
+    @Bean
+    public JdbcTemplate postgresTemplate(@Qualifier("postgresDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 }

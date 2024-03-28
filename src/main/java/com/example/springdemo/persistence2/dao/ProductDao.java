@@ -1,6 +1,6 @@
-package com.example.springdemo.rest.dao;
+package com.example.springdemo.persistence2.dao;
 
-import com.example.springdemo.rest.model.Product;
+import com.example.springdemo.persistence2.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

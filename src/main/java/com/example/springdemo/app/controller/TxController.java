@@ -1,16 +1,16 @@
 package com.example.springdemo.app.controller;
 
-import com.example.springdemo.app.model.TodoList;
 import com.example.springdemo.app.service.TxService;
-import com.example.springdemo.rest.model.Product;
+import com.example.springdemo.persistence.model.TodoList;
+import com.example.springdemo.persistence2.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 // [TODELETE] for transaction exercise
 @RestController
@@ -21,7 +21,12 @@ public class TxController {
     TxService txService;
 
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Qualifier("postgresTemplate")
+    JdbcTemplate postgresTemplate;
+
+    @Autowired
+    @Qualifier("secondTemplate")
+    JdbcTemplate secondTemplate;
 
     @GetMapping("/findByQuery/{title}")
     public ResponseEntity<List<TodoList>> findByQuery(@PathVariable("title") String title) {
@@ -31,9 +36,11 @@ public class TxController {
 
     @PostMapping("/updateTwoDatabase")
     public ResponseEntity<Void> updateTwoDatabase() {
-        TodoList todoList = new TodoList();
-        todoList.setTitle("JAX");
-        todoList.setDescription("create JAX");
+        TodoList todoList = TodoList.builder()
+                .title("JAX")
+                .description("create JAX with lombok")
+                .updateTime(new Timestamp(System.currentTimeMillis()))
+                .build();
 
         Product product = new Product();
         product.setName("JAX");
@@ -44,15 +51,13 @@ public class TxController {
     }
 
     private int getRandom() {
-        return (int) Math.floor(Math.random()* 100);
+        return (int) Math.floor(Math.random() * 100);
     }
 
     @PostMapping("/testJdbc")
     public ResponseEntity<Void> testJdbc() {
-        String sql = "INSERT INTO todolist(oid, title, description, updateTime) VALUES (gen_random_uuid(), 'KOGMOW', :description, NOW())";
-        Map<String, Object> map = new HashMap<>();
-        map.put("description", "description" + getRandom());
-        namedParameterJdbcTemplate.update(sql, map);
+        String sql = "INSERT INTO todolist(oid, title, description, updateTime) VALUES (gen_random_uuid(), 'KOGMOW', ?, NOW())";
+        postgresTemplate.update(sql, getRandom() + "test description");
         return ResponseEntity.ok(null);
     }
 

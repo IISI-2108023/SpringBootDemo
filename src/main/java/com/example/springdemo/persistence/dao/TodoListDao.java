@@ -1,6 +1,6 @@
-package com.example.springdemo.app.dao;
+package com.example.springdemo.persistence.dao;
 
-import com.example.springdemo.app.model.TodoList;
+import com.example.springdemo.persistence.model.TodoList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

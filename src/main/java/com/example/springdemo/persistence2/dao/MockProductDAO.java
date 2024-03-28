@@ -1,7 +1,7 @@
-package com.example.springdemo.rest.dao;
+package com.example.springdemo.persistence2.dao;
 
-import com.example.springdemo.rest.model.Product;
-import com.example.springdemo.rest.param.ProductRequestParameter;
+import com.example.springdemo.persistence2.model.Product;
+import com.example.springdemo.app.param.ProductRequestParameter;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 

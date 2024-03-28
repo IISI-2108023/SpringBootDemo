@@ -1,7 +1,7 @@
-package com.example.springdemo.rest.controller;
+package com.example.springdemo.app.controller;
 
-import com.example.springdemo.rest.model.Product;
-import com.example.springdemo.rest.service.ProductService;
+import com.example.springdemo.persistence2.model.Product;
+import com.example.springdemo.app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

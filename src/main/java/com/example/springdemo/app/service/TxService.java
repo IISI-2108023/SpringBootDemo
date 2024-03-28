@@ -1,9 +1,9 @@
 package com.example.springdemo.app.service;
 
-import com.example.springdemo.app.dao.TodoListDao;
-import com.example.springdemo.app.model.TodoList;
-import com.example.springdemo.rest.dao.ProductDao;
-import com.example.springdemo.rest.model.Product;
+import com.example.springdemo.persistence.dao.TodoListDao;
+import com.example.springdemo.persistence.model.TodoList;
+import com.example.springdemo.persistence2.dao.ProductDao;
+import com.example.springdemo.persistence2.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.example.springdemo.rest.param;
+package com.example.springdemo.app.param;
 
 public class ProductRequestParameter {
     private String searchKey;

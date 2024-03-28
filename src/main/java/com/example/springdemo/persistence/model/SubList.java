@@ -1,4 +1,4 @@
-package com.example.springdemo.app.model;
+package com.example.springdemo.persistence.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

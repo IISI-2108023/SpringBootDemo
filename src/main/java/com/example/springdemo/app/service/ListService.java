@@ -1,8 +1,8 @@
 package com.example.springdemo.app.service;
 
-import com.example.springdemo.app.dao.TodoListDao;
-import com.example.springdemo.app.model.TodoList;
-import com.example.springdemo.rest.exception.NotFoundException;
+import com.example.springdemo.persistence.dao.TodoListDao;
+import com.example.springdemo.persistence.model.TodoList;
+import com.example.springdemo.app.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
