@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
@@ -114,5 +115,19 @@ public class TxController {
         String oid = keyHolder.getKeyAs(String.class);
         TodoList todoList = listService.getTodoList(oid);
         return ResponseEntity.ok(todoList);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> countTodoList() {
+        int count = txService.countTodoList();
+        return ResponseEntity.ok(count);
+    }
+
+    @DeleteMapping("/delete/{oid}")
+    public ResponseEntity<Void> deleteTodoListByOid(@PathVariable String oid) {
+        if (StringUtils.hasLength(oid)) {
+            txService.deleteTodoListByOid(oid);
+        }
+        return ResponseEntity.ok(null);
     }
 }

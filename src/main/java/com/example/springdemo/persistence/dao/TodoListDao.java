@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TodoListDao extends JpaRepository<TodoList, String> {
+public interface TodoListDao extends JpaRepository<TodoList, String>, CustTodoListDao {
 
-    @Query("SELECT t FROM TodoList t WHERE t.title LIKE %:title%")
-    List<TodoList> findByTitle(@Param("title") String title);
+    @Query("SELECT t FROM TodoList t WHERE LOWER(t.title) LIKE '%' || LOWER(:title) || '%'")
+    List<TodoList> findByTitleIgnoreCase(@Param("title") String title);
 
+    @Query("SELECT count(oid) FROM TodoList")
+    int countAll();
 }

@@ -23,13 +23,22 @@ public class TxService {
 
     public List<TodoList> findTodoListByTitle(String title) {
         if (StringUtils.hasLength(title)) {
-            return todoListDao.findByTitle(title);
+            return todoListDao.findByTitleIgnoreCase(title);
         }
         return null;
     }
+
     @Transactional
     public void updateTwoBeans(TodoList todoList, Product product) {
         todoListDao.save(todoList);
         productDao.save(product);
+    }
+
+    public int countTodoList() {
+        return todoListDao.countAll();
+    }
+
+    public void deleteTodoListByOid(String oid) {
+        todoListDao.deleteByOid(oid);
     }
 }
