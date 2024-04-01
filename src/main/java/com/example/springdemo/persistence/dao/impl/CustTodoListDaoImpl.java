@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CustTodoListDaoImpl implements CustTodoListDao {
 
     @Autowired
-    @Qualifier("postgresTemplate")
+    @Qualifier("postgresJdbcTemplate")
     JdbcTemplate jdbcTemplate;
 
     public void deleteByOid(String oid) {

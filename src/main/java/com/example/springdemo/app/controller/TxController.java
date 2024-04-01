@@ -1,6 +1,5 @@
 package com.example.springdemo.app.controller;
 
-import com.example.springdemo.app.jdbc.TodoListRowMapper;
 import com.example.springdemo.app.service.ListService;
 import com.example.springdemo.app.service.TxService;
 import com.example.springdemo.persistence.model.TodoList;
@@ -10,15 +9,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.List;
 
 // [TODELETE] for transaction exercise
@@ -33,12 +30,12 @@ public class TxController {
     ListService listService;
 
     @Autowired
-    @Qualifier("postgresTemplate")
-    JdbcTemplate postgresTemplate;
+    @Qualifier("postgresJdbcTemplate")
+    JdbcTemplate postgresJdbcTemplate;
 
     @Autowired
-    @Qualifier("secondTemplate")
-    JdbcTemplate secondTemplate;
+    @Qualifier("secondJdbcTemplate")
+    JdbcTemplate secondJdbcTemplate;
 
     @GetMapping("/findByQuery/{title}")
     public ResponseEntity<List<TodoList>> findByQuery(@PathVariable("title") String title) {
@@ -72,35 +69,31 @@ public class TxController {
     @PostMapping("/testJdbcUpdate")
     public ResponseEntity<Void> testJdbcUpdate() {
         String sql = "INSERT INTO todolist(oid, title, description, updateTime) VALUES (gen_random_uuid(), 'KOGMOW', ?, NOW())";
-        postgresTemplate.update(sql, getRandom() + "test description333333");
+        postgresJdbcTemplate.update(sql, getRandom() + "test description333333");
         return ResponseEntity.ok(null);
     }
 
     @PostMapping("/testJdbcQuery")
-    public ResponseEntity<List<TodoList>> testJdbcQuery() {
-        String sql = "SELECT * FROM todolist";
-        List<TodoList> list = postgresTemplate.query(sql, new TodoListRowMapper());
-//        List<TodoList> list = postgresTemplate.query(sql, new RowMapper<TodoList>() {
-//            @Override
-//            public TodoList mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                TodoList todoList = TodoList.builder()
-//                        .oid(rs.getString("oid"))
-//                        .title(rs.getString("title"))
-//                        .description(rs.getString("description"))
-//                        .updateTime(rs.getTimestamp("updateTime"))
-//                        .status(rs.getString("status"))
-//                        .referenceUrl(rs.getString("referenceUrl"))
-//                        .build();
-//                return todoList;
-//            }
-//        });
+    public ResponseEntity<List<Product>> testJdbcQuery() {
+        String sql = "SELECT * FROM product";
+//        List<TodoList> list = postgresTemplate.query(sql, new TodoListRowMapper());
+        List<Product> list = secondJdbcTemplate.query(sql, new RowMapper<Product>() {
+            @Override
+            public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Product product = Product.builder()
+                        .name("JDBC")
+                        .price(1)
+                        .build();
+                return product;
+            }
+        });
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/testJdbcPS/{title}")
     public ResponseEntity<TodoList> testJdbcPS(@PathVariable String title) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        int result = postgresTemplate.update(
+        int result = postgresJdbcTemplate.update(
                 new PreparedStatementCreator() {
                     @Override
                     public PreparedStatement createPreparedStatement(Connection con) throws SQLException {

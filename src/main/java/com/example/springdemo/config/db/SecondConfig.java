@@ -46,7 +46,7 @@ public class SecondConfig {
         return new JpaTransactionManager(entityManagerFactoryBean.getObject());
     }
 
-    @Bean
+    @Bean(name = "secondJdbcTemplate")
     public JdbcTemplate secondTemplate(@Qualifier("secondDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }

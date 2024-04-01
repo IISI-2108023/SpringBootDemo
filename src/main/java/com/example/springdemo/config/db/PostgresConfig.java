@@ -75,7 +75,7 @@ public class PostgresConfig {
         return new EntityManagerFactoryBuilder(createJpaVendorAdaptor(jpaProperties), jpaProperties.getProperties(), null);
     }
 
-    @Bean
+    @Bean(name = "postgresJdbcTemplate")
     public JdbcTemplate postgresTemplate(@Qualifier("postgresDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
