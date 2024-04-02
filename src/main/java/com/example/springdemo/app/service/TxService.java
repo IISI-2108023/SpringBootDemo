@@ -7,8 +7,8 @@ import com.example.springdemo.persistence2.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // [TODELETE] for transaction exercise
@@ -22,10 +22,7 @@ public class TxService {
     ProductDao productDao;
 
     public List<TodoList> findTodoListByTitle(String title) {
-        if (StringUtils.hasLength(title)) {
-            return todoListDao.findByTitleIgnoreCase(title);
-        }
-        return null;
+        return todoListDao.findByTitleIgnoreCase(title);
     }
 
     @Transactional
@@ -40,5 +37,17 @@ public class TxService {
 
     public void deleteTodoListByOid(String oid) {
         todoListDao.deleteByOid(oid);
+    }
+
+    public List<TodoList> findByTitleIgnoreCaseOrderByTitle(String title) {
+        return todoListDao.findByTitleIgnoreCaseOrderByTitle(title);
+    }
+
+    public List<String> findTitleDistinct() {
+        List<String> list = new ArrayList<>();
+        todoListDao.findDistinctTitleByStatus("0").toSet().forEach(e -> {
+            list.add(e.getTitle());
+        });
+        return list;
     }
 }

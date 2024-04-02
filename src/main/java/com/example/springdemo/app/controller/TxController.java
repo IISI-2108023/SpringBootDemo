@@ -123,4 +123,16 @@ public class TxController {
         }
         return ResponseEntity.ok(null);
     }
+
+    @GetMapping("/findByTitleIgnoreCaseOrderByTitle/{title}")
+    public ResponseEntity<List<TodoList>> findByTitleIgnoreCaseOrderByTitle(@PathVariable("title") String title) {
+        List<TodoList> list = txService.findByTitleIgnoreCaseOrderByTitle(title);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/findTitleDistinct")
+    public ResponseEntity<List<String>> findTitleDistinct() {
+        List<String> list = txService.findTitleDistinct();
+        return ResponseEntity.ok(list);
+    }
 }
